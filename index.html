@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>上傳檔案表單</title>
+    <title>選擇圖片檔案並顯示</title>
   </head>
   <body>
-    <form action="upload.php" method="post" enctype="multipart/form-data">
-      <label for="file">選擇要上傳的檔案：</label>
-      <input type="file" id="file" name="file">
-      <br><br>
-      <input type="submit" value="上傳">
-    </form>
+    <input type="file" id="fileInput">
+    <br>
+    <img id="preview" style="display:none">
+    <script>
+      const fileInput = document.getElementById('fileInput');
+      const preview = document.getElementById('preview');
+
+      fileInput.addEventListener('change', () => {
+        const file = fileInput.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.addEventListener('load', () => {
+            preview.src = reader.result;
+            preview.style.display = 'inline';
+          });
+          reader.readAsDataURL(file);
+        } else {
+          preview.src = '';
+          preview.style.display = 'none';
+        }
+      });
+    </script>
   </body>
 </html>
